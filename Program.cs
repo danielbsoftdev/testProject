@@ -113,10 +113,10 @@ namespace Test
             Console.WriteLine("Turn " + turnsCounter.ToString());
             Console.WriteLine(string.Format(" {0} attacked, {1} defended. ", attacker.Name, defender.Name));
             Console.WriteLine(" Skills used: " + (skillUsed == string.Empty ? "none" : skillUsed));
-            Console.WriteLine(string.Format(" Damage done: {0}. Defender's health left: {1}.", (Math.Round(damage + damage2, 0)).ToString(), defender.Health));
+            Console.WriteLine(string.Format(" Damage done: {0}. Defender's health left: {1}.", (Math.Round(damage + damage2, 1)).ToString(), defender.Health));
             Console.WriteLine(string.Empty);
 
-            if (defender.Health < 1)
+            if (defender.Health <= 0)
             {
                 winner = attacker.Name;
             }
@@ -221,6 +221,4 @@ namespace Test
             TurnsWhenSkillApplies = Program.GetTurns(useLikehood, true);
         }
     }
-
-    
 }
