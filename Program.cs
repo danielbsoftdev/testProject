@@ -26,8 +26,9 @@ namespace Test
                     var Orderus = new Character("Orderus");
                     var Wildbeast = new Character("Wildbeast");
 
-                    Character attacker, defender = null;
-                    Character temp = new Character("");
+                    Character attacker = null;
+                    Character defender = null;
+                    Character temp = null;
 
                     string winner = string.Empty;
                   
@@ -94,14 +95,19 @@ namespace Test
                 }
             }
 
-            double damage = (attacker.Strength - defender.Defense) * damangePercent;
-            defender.Health = defender.Health - damage <= 0 ? 0 : defender.Health - damage;
-
+            double damage = 0;
             double damage2 = 0;
-            if (attackTwice)
+
+            if (!defender.TurnsWhenLuckApplies.Contains(turnsCounter))
             {
-                damage2 = attacker.Strength - defender.Defense;
-                defender.Health = defender.Health - damage2 <= 0 ? 0 : defender.Health - damage2;
+                damage = (attacker.Strength - defender.Defense) * damangePercent;
+                defender.Health = defender.Health - damage <= 0 ? 0 : defender.Health - damage;
+
+                if (attackTwice)
+                {
+                    damage2 = attacker.Strength - defender.Defense;
+                    defender.Health = defender.Health - damage2 <= 0 ? 0 : defender.Health - damage2;
+                }
             }
 
             Console.WriteLine("Turn " + turnsCounter.ToString());
@@ -123,6 +129,34 @@ namespace Test
 
             turnsCounter += 1;
         }
+
+        static public List<int> GetTurns(int useLikehood, bool isSkillRelated = false)
+        {
+            var rnd = new Random();
+            var list = new List<int>();
+
+            var multiplicator = 1;
+            if (isSkillRelated)
+            {
+                // divided by 2 because a skill is applied only while attacking or while defending; 
+                // that means the percent refers not to the total turns of the game, but only to half of them
+                multiplicator = 2;
+            }
+          
+            int turnNumber = turnsPerGame * useLikehood / 100 / multiplicator;
+            int generatedTurns = 0;
+            while (generatedTurns < turnNumber)
+            {
+                var generated = rnd.Next(1, turnsPerGame + 1);
+                if (!list.Contains(generated))
+                {
+                    list.Add(generated);
+                    generatedTurns += 1;
+                }
+            }
+
+            return list;
+        }
     }
 
     // another approach would have been to declare a separate class for each character type
@@ -135,6 +169,7 @@ namespace Test
         public int Defense { get; set; }
         public int Speed { get; set; }
         public int Luck { get; set; }
+        public List<int> TurnsWhenLuckApplies { get; set; }
         public List<Skill> SkillList { get; set; }
 
         public Character(string name)
@@ -162,6 +197,7 @@ namespace Test
                 Speed = rnd.Next(40, 61);
                 Luck = rnd.Next(25, 41);
             }
+            TurnsWhenLuckApplies = Program.GetTurns(Luck);
         }
 
         public Character Clone()
@@ -182,29 +218,9 @@ namespace Test
             Description = description;
             IsAttackSkill = isAttackSkill;
             UseLikehood = useLikehood;
-            TurnsWhenSkillApplies = GetTurns(useLikehood);
-        }
-
-        private List<int> GetTurns(int useLikehood)
-        {
-            var rnd = new Random();
-            var list = new List<int>();
-            
-            // divided by 2 because a skill is applied only while attacking or while defending; 
-            // that means the percent refers not to the total turns of the game, but only to half of them
-            int turnNumber = Program.turnsPerGame * useLikehood / 100 / 2; 
-            int generatedTurns = 0;
-            while (generatedTurns < turnNumber)
-            {
-                var generated = rnd.Next(1, Program.turnsPerGame + 1);
-                if (!list.Contains(generated))
-                {
-                    list.Add(generated);
-                    generatedTurns += 1;
-                }
-            }
-           
-            return list;
+            TurnsWhenSkillApplies = Program.GetTurns(useLikehood, true);
         }
     }
+
+    
 }
