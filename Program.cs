@@ -24,6 +24,7 @@ namespace Test
                     Console.WriteLine("--Game started--");
 
                     var Orderus = new Character("Orderus");
+                    var Vasilica = new Character("Vasilica");
                     var Wildbeast = new Character("Wildbeast");
 
                     Character attacker = null;
@@ -37,7 +38,7 @@ namespace Test
                     SetCharacters(Orderus, Wildbeast, out attacker, out defender);
 
                     while (turnsCounter < turnsPerGame + 1 && winner == string.Empty)
-                        SimulateTurn(ref attacker, ref defender, ref turnsCounter, ref winner, ref temp);
+                        SimulateTurn(ref attacker, ref defender, ref Vasilica, ref turnsCounter, ref winner, ref temp);
 
                     if (winner == string.Empty)
                         winner = Orderus.Health >= Wildbeast.Health ? Orderus.Name : Wildbeast.Name;
@@ -68,11 +69,12 @@ namespace Test
             }
         }
 
-        static void SimulateTurn(ref Character attacker, ref Character defender, ref int turnsCounter, ref string winner, ref Character temp)
+        static void SimulateTurn(ref Character attacker, ref Character defender, ref Character Vasilica, ref int turnsCounter, ref string winner, ref Character temp)
         {
             string skillUsed = string.Empty;
             double damangePercent = 1;
             bool attackTwice = false;
+            bool isVasilicaAttacking = false;
             if (attacker.SkillList != null && attacker.SkillList.Count > 0)
             {
                 // for the sake of simplicity we only apply one skill per turn per character
@@ -82,6 +84,11 @@ namespace Test
                     attackTwice = true;
                     skillUsed += string.Format(" {0} by {1}.", skill.Name, attacker.Name);
                 }
+            }
+
+            if (attacker.Name == "Orderus" && Vasilica.Hand > 0)
+            {
+                isVasilicaAttacking = true;
             }
 
             if (defender.SkillList != null && defender.SkillList.Count > 0)
@@ -97,6 +104,7 @@ namespace Test
 
             double damage = 0;
             double damage2 = 0;
+            double damage3 = 0;
 
             if (!defender.TurnsWhenLuckApplies.Contains(turnsCounter))
             {
@@ -108,12 +116,19 @@ namespace Test
                     damage2 = attacker.Strength - defender.Defense;
                     defender.Health = defender.Health - damage2 <= 0 ? 0 : defender.Health - damage2;
                 }
+
+                if (isVasilicaAttacking)
+                {
+                    damage3 = Vasilica.Strength * 2;
+                    Vasilica.Hand = Vasilica.Hand - Vasilica.Strength / 4;
+                    defender.Health = defender.Health - damage3 <= 0 ? 0 : defender.Health - damage3;
+                }
             }
 
             Console.WriteLine("Turn " + turnsCounter.ToString());
             Console.WriteLine(string.Format(" {0} attacked, {1} defended. ", attacker.Name, defender.Name));
             Console.WriteLine(" Skills used: " + (skillUsed == string.Empty ? "none" : skillUsed));
-            Console.WriteLine(string.Format(" Damage done: {0}. Defender's health left: {1}.", (Math.Round(damage + damage2, 1)).ToString(), defender.Health));
+            Console.WriteLine(string.Format(" Damage done: {0}. Defender's health left: {1}.", (Math.Round(damage + damage2 + damage3, 1)).ToString(), defender.Health));
             Console.WriteLine(string.Empty);
 
             if (defender.Health <= 0)

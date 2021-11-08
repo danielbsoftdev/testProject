@@ -13,6 +13,7 @@ namespace Test
         public int Defense { get; set; }
         public int Speed { get; set; }
         public int Luck { get; set; }
+        public int Hand { get; set; }
         public List<int> TurnsWhenLuckApplies { get; set; }
         public List<Skill> SkillList { get; set; }
 
@@ -20,7 +21,7 @@ namespace Test
         {
             Name = name;
             var rnd = new Random();
-            if (name == "Orderus")
+            if (name == "Orderus" || name == "Vasilica")
             {
                 Health = rnd.Next(70, 101);
                 Strength = rnd.Next(70, 81);
@@ -32,6 +33,11 @@ namespace Test
                     new Skill("Rapid Strike", "Strike twice while attaking", true, 10),
                     new Skill("Magic Shield", "Takes half of damage when defending", false, 20)
                 };
+
+                if (name == "Vasilica")
+                {
+                    Hand = 100;
+                }
             }
             else
             {
