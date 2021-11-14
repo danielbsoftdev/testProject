@@ -47,7 +47,7 @@ namespace Test
                 Speed = rnd.Next(40, 61);
                 Luck = rnd.Next(25, 41);
             }
-            TurnsWhenLuckApplies = Program.GetTurns(Luck);
+            TurnsWhenLuckApplies = Game.GetTurns(Luck);
         }
 
         public Character Clone()

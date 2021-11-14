@@ -15,7 +15,7 @@ namespace Test
             Description = description;
             IsAttackSkill = isAttackSkill;
             UseLikehood = useLikehood;
-            TurnsWhenSkillApplies = Program.GetTurns(useLikehood, true);
+            TurnsWhenSkillApplies = Game.GetTurns(useLikehood, true);
         }
     }
 }
