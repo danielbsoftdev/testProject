@@ -24,13 +24,13 @@ namespace Test
                     Console.Clear();
                     Console.WriteLine("--Game started--");
 
-                    var Orderus = new Character("Orderus");
-                    var Vasilica = new Character("Vasilica");
-                    var Wildbeast = new Character("Wildbeast");
+                    ICharacter Orderus = new Character("Orderus");
+                    ICharacter Vasilica = new Character("Vasilica");
+                    ICharacter Wildbeast = new Character("Wildbeast");
 
-                    Character attacker = null;
-                    Character defender = null;
-                    Character temp = null;
+                    ICharacter attacker = null;
+                    ICharacter defender = null;
+                    ICharacter temp = null;
 
                     string winner = string.Empty;
 
@@ -55,7 +55,7 @@ namespace Test
             }
         }
 
-        static void SetCharacters(Character Orderus, Character Wildbeast, out Character attacker, out Character defender)
+        static void SetCharacters(ICharacter Orderus, ICharacter Wildbeast, out ICharacter attacker, out ICharacter defender)
         {
             if (Orderus.Speed != Wildbeast.Speed)
             {
@@ -69,7 +69,7 @@ namespace Test
             }
         }
 
-        static void SimulateTurn(ref Character attacker, ref Character defender, ref Character Vasilica, ref int turnsCounter, ref string winner, ref Character temp)
+        static void SimulateTurn(ref ICharacter attacker, ref ICharacter defender, ref ICharacter Vasilica, ref int turnsCounter, ref string winner, ref ICharacter temp)
         {
             string skillUsed = string.Empty;
             double damangePercent = 1;
