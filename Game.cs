@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Test
 {
-    class Game
+    class Game : IGame
     {
         private static int turnsPerGame = 20;
 

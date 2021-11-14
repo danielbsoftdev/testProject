@@ -1,0 +1,7 @@
+﻿
+namespace Test
+{
+    interface ISkill
+    {
+    }
+}

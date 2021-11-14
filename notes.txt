@@ -1,0 +1,1 @@
+1. each class implements one interface
