@@ -6,7 +6,7 @@ namespace Test
 {
     class Game : IGame
     {
-        private static int turnsPerGame = 20;
+        private int turnsPerGame = 20;
 
         public void Play()
         {
@@ -28,15 +28,13 @@ namespace Test
                     ICharacter Vasilica = new Character("Vasilica");
                     ICharacter Wildbeast = new Character("Wildbeast");
 
-                    ICharacter attacker = null;
-                    ICharacter defender = null;
                     ICharacter temp = null;
 
                     string winner = string.Empty;
 
                     var turnsCounter = 1;
 
-                    SetCharacters(Orderus, Wildbeast, out attacker, out defender);
+                    SetCharacters(Orderus, Wildbeast, out ICharacter attacker, out ICharacter defender);
 
                     while (turnsCounter < turnsPerGame + 1 && winner == string.Empty)
                         SimulateTurn(ref attacker, ref defender, ref Vasilica, ref turnsCounter, ref winner, ref temp);
@@ -55,7 +53,7 @@ namespace Test
             }
         }
 
-        static void SetCharacters(ICharacter Orderus, ICharacter Wildbeast, out ICharacter attacker, out ICharacter defender)
+        void SetCharacters(ICharacter Orderus, ICharacter Wildbeast, out ICharacter attacker, out ICharacter defender)
         {
             if (Orderus.Speed != Wildbeast.Speed)
             {

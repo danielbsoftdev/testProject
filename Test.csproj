@@ -43,6 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="IDefender.cs" />
+    <Compile Include="IAttacker.cs" />
+    <Compile Include="ICharacter.cs" />
+    <Compile Include="IGame.cs" />
+    <Compile Include="ISkill.cs" />
+    <Compile Include="LiveCoding\Character.cs" />
+    <Compile Include="LiveCoding\Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skill.cs" />

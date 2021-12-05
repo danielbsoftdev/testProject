@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    interface ICharacter: IAttacker, IDefender
+    interface IAttacker
     {
         string Name { get; set; }
         double Health { get; set; }
@@ -19,7 +19,7 @@ namespace Test
         List<Skill> SkillList { get; set; }
         Character Clone();
 
-        bool IsFasterThan(ICharacter otherCharacter);
+        void Attack(IDefender defender);
         
     }
 }

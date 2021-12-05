@@ -5,7 +5,7 @@ namespace Test
 {
     // another approach would have been to declare a separate class for each character type
     // but in that case, switching between attacker and defender would also require a different handling 
-    public class Character : ICharacter
+    public class Character : ICharacter, ISkill
     {
         public string Name { get; set; }
         public double Health { get; set; }
