@@ -156,7 +156,7 @@ namespace Test
                 multiplicator = 2;
             }
 
-            int turnNumber = turnsPerGame * useLikehood / 100 / multiplicator;
+            int turnNumber = turnsPerGame * useLikehood / 100 ;
             int generatedTurns = 0;
             while (generatedTurns < turnNumber)
             {

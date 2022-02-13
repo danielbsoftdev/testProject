@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace Test
 {
-    // another approach would have been to declare a separate class for each character type
-    // but in that case, switching between attacker and defender would also require a different handling 
-    public class Character : ICharacter, ISkill
+    public class Character
     {
         public string Name { get; set; }
         public double Health { get; set; }
@@ -13,7 +11,7 @@ namespace Test
         public int Defense { get; set; }
         public int Speed { get; set; }
         public int Luck { get; set; }
-        public int Hand { get; set; }
+      
         public List<int> TurnsWhenLuckApplies { get; set; }
         public List<Skill> SkillList { get; set; }
 
@@ -33,11 +31,6 @@ namespace Test
                     new Skill("Rapid Strike", "Strike twice while attaking", true, 10),
                     new Skill("Magic Shield", "Takes half of damage when defending", false, 20)
                 };
-
-                if (name == "Vasilica")
-                {
-                    Hand = 100;
-                }
             }
             else
             {
@@ -53,6 +46,31 @@ namespace Test
         public Character Clone()
         {
             return (Character)MemberwiseClone();
+        }
+
+        //public bool IsFasterThan(ICharacter otherCharacter)
+        //{
+        //    return Speed > otherCharacter.Speed;
+        //}
+
+        //public void Attack(IDefender defender)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public bool IsStillAlive()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsLuckyThisTurn(int turn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReceiveDamage(int damage)
+        {
+            throw new NotImplementedException();
         }
     }
 }

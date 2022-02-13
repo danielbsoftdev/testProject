@@ -6,20 +6,15 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    interface ICharacter: IAttacker, IDefender
+    interface ICharacter
     {
         string Name { get; set; }
         double Health { get; set; }
-        int Strength { get; set; }
         int Speed { get; set; }
-        int Defense { get; set; }
-        int Luck { get; set; }
-        int Hand { get; set; }
-        List<int> TurnsWhenLuckApplies { get; set; }
-        List<Skill> SkillList { get; set; }
-        Character Clone();
+        //List<Skill> SkillList { get; set; }
 
         bool IsFasterThan(ICharacter otherCharacter);
-        
+        IAttacker AsAttacker();
+        IDefender AsDefender();
     }
 }

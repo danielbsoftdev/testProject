@@ -6,40 +6,51 @@ using System.Threading.Tasks;
 
 namespace Test.LiveCoding
 {
-    class Character : ICharacter
+    class Character : IAttacker, IDefender
     {
-
         //defender
-        public double Health { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Defense { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Luck { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<int> TurnsWhenLuckApplies { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double Health { get; set; }
+        public int Defense { get; set; }
+        public int Luck { get; set; }
+        public List<int> TurnsWhenLuckApplies { get; set; }
+        private int AttackReceivedCounter = 0;
+        private int ReceivedDamage = 0;
+        public MagicShield MagicShield;
 
         //atacker
-        public int Strength { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Strength { get; set; }
+        public RapidStrike RapidStrike;
 
+        //common
+        public string Name { get; set; }
+        public int Speed { get; set; }
+        public List<ISkill> SkillList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Speed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<Skill> SkillList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-
-
-        //public int Mana { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Character(string name, int defense, int luck, int strength, int health) {
+            Name = name;
+            Defense = defense;
+            Luck = luck;
+            Strength = strength;
+            Health = health;
+        }
 
         private int GetDamage()
         {
-            return 0;
+            return Strength;
+        }
+
+        public IAttacker AsAttacker() {
+            return this;
+        }
+
+        public IDefender AsDefender()
+        {
+            return this;
         }
 
         public void Attack(IDefender defender)
         {
             defender.ReceiveDamage(GetDamage());
-        }
-
-        public Test.Character Clone()
-        {
-            throw new NotImplementedException();
         }
 
         public bool IsFasterThan(ICharacter otherCharacter)
@@ -49,7 +60,11 @@ namespace Test.LiveCoding
 
         public bool IsLuckyThisTurn(int turn)
         {
-            throw new NotImplementedException();
+
+            var turn1 = new Random();
+            var generated = turn1.Next(100);
+
+            return generated < Luck;
         }
 
         public bool IsStillAlive()
@@ -59,11 +74,37 @@ namespace Test.LiveCoding
 
         public void ReceiveDamage(int strengts)
         {
-            //check skill
-          
-            if(!IsLuckyThisTurn()){
-                Health = Health - (strengts - Defense);
+            ReceivedDamage = strengts;
+            AttackReceivedCounter++;
+            if(!IsLuckyThisTurn(AttackReceivedCounter)){
+                Health = ComputeNewHealth(); 
             }
         }
+
+        private bool IsSkillApply(ISkill skill)
+        {
+            return false;
+        }
+
+        private int ComputeNewHealth()
+        {
+            var generated = new Random().Next(30);
+
+            foreach (var skill in SkillList)
+            {
+                if (IsSkillApply(skill))
+                {
+                    skill.ApplySkill();
+                }
+                else
+                {
+                    Health - (strengts - Defense);
+                }
+
+            }
+           
+            return 
+        }
+
     }
 }
